@@ -90,6 +90,16 @@ workflows:
       - deploy:
           context:
             - org-global
+          config_env: prod
+          requires:
+            - build-and-push
+          filters:
+            branches:
+              only:
+                - main
+      - deploy:
+          context:
+            - org-global
           config_env: qa
           requires:
             - build-and-push
