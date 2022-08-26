@@ -65,7 +65,7 @@ jobs:
             ./bin/generate_app
 
 workflows:
-  dbfp_tsv_jobs:
+  dbfp_awfam_jobs:
     jobs:
       - release_image:
           context:
@@ -87,16 +87,6 @@ workflows:
               only:
                 - main
                 - /preview\/.*/
-      - deploy:
-          context:
-            - org-global
-          config_env: prod
-          requires:
-            - build-and-push
-          filters:
-            branches:
-              only:
-                - main
       - deploy:
           context:
             - org-global
