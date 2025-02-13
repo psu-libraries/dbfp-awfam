@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  docker: circleci/docker@2.8.1
+  docker: circleci/docker@2.8.2
 jobs:
   release_image:
     docker:
@@ -28,19 +28,18 @@ jobs:
     environment:
       REGISTRY_HOST: harbor.k8s.libraries.psu.edu
     steps:
-      - setup_remote_docker:
-          version: 19.03.13
-      - checkout
-      - docker/check:
-          registry: $REGISTRY_HOST
-      - docker/build:
-          image: "library/$CIRCLE_PROJECT_REPONAME"
-          registry: $REGISTRY_HOST
-          tag: << parameters.version >>
-      - docker/push:
-          registry: $REGISTRY_HOST
-          image: "library/$CIRCLE_PROJECT_REPONAME"
-          tag: << parameters.version >>
+    - setup_remote_docker
+    - checkout
+    - docker/check:
+        registry: $REGISTRY_HOST
+    - docker/build:
+        image: "library/$CIRCLE_PROJECT_REPONAME"
+        registry: $REGISTRY_HOST
+        tag: << parameters.version >>
+    - docker/push:
+        registry: $REGISTRY_HOST
+        image: "library/$CIRCLE_PROJECT_REPONAME"
+        tag: << parameters.version >>
   deploy:
     docker:
       - image: harbor.k8s.libraries.psu.edu/library/ci-utils:$CI_UTILS_IMG_TAG
