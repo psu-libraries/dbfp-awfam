@@ -1,8 +1,6 @@
 version: 2.1
-
 orbs:
-  docker: circleci/docker@2.6.0
-
+  docker: circleci/docker@2.8.2
 jobs:
   release_image:
     docker:
@@ -22,7 +20,6 @@ jobs:
             git clone $CONFIG_REPO
             cd dbfp-config
             /usr/local/bin/pr-release clusters/prod/manifests/$CIRCLE_PROJECT_REPONAME/prod.yaml
-
   build-and-push:
     parameters:
       version:
@@ -62,7 +59,6 @@ jobs:
             git clone $CONFIG_REPO
             cd dbfp-config
             ./bin/generate_app
-
 workflows:
   dbfp_awfam_jobs:
     jobs:
@@ -76,7 +72,7 @@ workflows:
                 - /^v\d+.\d+.\d+.*/
             branches:
               ignore:
-                  - /.*/
+                - /.*/
       - build-and-push:
           context:
             - org-global
