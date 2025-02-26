@@ -42,7 +42,7 @@ jobs:
           registry: $REGISTRY_HOST
           image: "library/$CIRCLE_PROJECT_REPONAME"
           tag: << parameters.version >>
-  deploy:
+  deploy-job:
     docker:
       - image: harbor.k8s.libraries.psu.edu/library/ci-utils:$CI_UTILS_IMG_TAG
     environment:
@@ -85,7 +85,7 @@ workflows:
               only:
                 - main
                 - /preview\/.*/
-      - deploy:
+      - deploy-job:
           context:
             - org-global
           config_env: qa
@@ -95,7 +95,7 @@ workflows:
             branches:
               only:
                 - main
-      - deploy:
+      - deploy-job:
           context:
             - org-global
           config_env: dev
